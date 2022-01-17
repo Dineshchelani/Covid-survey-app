@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./login.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script type="module">
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsMHJjMSfdSKTw9k-XM3GQoB4D30x6ZUw",
+            authDomain: "covid-survey-app.firebaseapp.com",
+            projectId: "covid-survey-app",
+            storageBucket: "covid-survey-app.appspot.com",
+            messagingSenderId: "277835984545",
+            appId: "1:277835984545:web:7154ab37e52652b3eccae0",
+            measurementId: "G-4JP1HGZ6JD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+
+<body>
+    <div class="login">
+        <!-- Login block -->
+        <div class="w3-animate-zoom">
+            <form onsubmit="return false">
+                <h2 class="title">Admin Login</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Email" id="email" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" id="password" />
+                </div>
+                <button onclick="LoginF()" class="btn" id="Login">Login</button>
+            </form>
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./admin.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script type="module">
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsMHJjMSfdSKTw9k-XM3GQoB4D30x6ZUw",
+            authDomain: "covid-survey-app.firebaseapp.com",
+            projectId: "covid-survey-app",
+            storageBucket: "covid-survey-app.appspot.com",
+            messagingSenderId: "277835984545",
+            appId: "1:277835984545:web:7154ab37e52652b3eccae0",
+            measurementId: "G-4JP1HGZ6JD"
+        };
+
+        
+    </script>
+</head>
+
+<body>
+    <div>
+        <!-- nav bar  -->
+        <div id="navBar">
+            <h2 id="Heading">Covid-19 Survey</h2>
+            <!-- Current User data button -->
+            <div class="btn-group">
+                <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item" style="color: #021bf799; font-weight: bold;">Email: <span
+                            style="color: black; font-weight: normal" id="Email"></span></li>
+                    <li class="dropdown-item"><button class="btn btn-outline-primary" type="button" id="login"
+                            onclick="logoutF()">Logout</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--Buttons to show Create Survey and Survey Report screen-->
+        <div id="buttons">
+            <button id="createSurvey" type="button">Create Survey</button> <br>
+            <button id="surveyReport" type="button">Survey Report</button>
+        </div>
+
+        <!-- Create Survey div -->
+        <div id="csScreen">
+            <center>
+                <!-- div of add question button with select type of question -->
+                <div>
+                    <form action="#" onsubmit="addQ();return false">
+                        <select id="questionType" name="questionType" required="required">
+                            <option value="" style="display: none; ">Select type of question</option>
+                            <option value="Multiple" checked="">Multiple: Choose the correct answer</option>
+                            <option value="Single">Single: True / False Questions</option>
+                            <option value="Data">Data: Only for info no correct response</option>
+                        </select>
+                        <button type="submit" class="myBtn"><i class="fas fa-plus"></i> Add Question</button>
+                    </form>
+                </div>
+                <div id="setQuestions">
+                    <!-- Single: True / False Questions -->
+                    <div id="single">
+                        <form action="#" class="form" onsubmit="saveQuestion('single'); return false">
+                            <div>
+                                <label for="singleQ">Question:
+                                    <input type="text" name="question" id="singleQ" required="required">
+                                </label>
+
+                                <label>Passing response:
+                                    <input type="radio" name="passResponse" id="Yes" value="Yes" checked>
+                                    <label for="Yes">Yes</label>
+
+                                    <input type="radio" name="passResponse" id="No" value="No">
+                                    <label for="No">No</label>
+                                </label>
+                            </div>
+                            <button type="submit" class="myBtn">Save Question</button>
+                        </form>
+                    </div>
+
+                    <!-- Multiple: Choose the correct answer. -->
+                    <div id="multiple">
+                        <form action="#" class="form" onsubmit="saveQuestion('multiple'); return false">
+                            <label for="multipleQ">Question :
+                                <input type="text" name="question" id="multipleQ" required="required"></label>
+
+                            <div id="options">
+                                <label for="option">Option :&nbsp&nbsp&nbsp
+                                    <input type="text" name="option" id="option" >
+                                </label>
+                                <label>Passing response:
+                                    <input type="radio" name="passResponse" id="Yes" value="Yes" checked>
+                                    <label for="Yes">Yes</label>
+
+                                    <input type="radio" name="passResponse" id="No" value="No">
+                                    <label for="No">No</label>
+                                </label>
+                                <button class="myBtn" type="button" id="addOption"><i class="fas fa-plus"></i> add the
+                                    option
+                                </button>
+                            </div>
+                            <button type="submit" class="myBtn">Save Question</button>
+                        </form>
+
+                    </div>
+
+                    <!-- Data: Only for info no correct response -->
+                    <div id="data">
+                        <form action="#" class="form" onsubmit="saveQuestion('data'); return false">
+                            <label for="dataQ">Question:
+                                <input type="text" name="question" id="dataQ">
+                            </label>
+                            <button type="submit" class="myBtn">Save Question</button>
+                        </form>
+                    </div>
+                </div>
+            </center>
+        </div>
+
+        <!-- Survey Report div -->
+        <div id="srScreen">
+
+        </div>
+
+    </div>
+
+</body>
+<script src="./app.js"></script>
+
+</html>
